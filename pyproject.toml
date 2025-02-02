@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "gestión-reservas-api"
+version = "0.1.0"
+description = "Api para la gestión de reservas de un restaurante"
+authors = ["Juan Delgado <juanddelgadoguerra@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+flask = "^3.1.0"
+flask-sqlalchemy = "^3.1.1"
+python-dotenv = "^1.0.1"
+pymysql = "^1.1.1"
+flask-bootstrap = "^3.3.7.1"
+flask-migrate = "^4.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
