@@ -46,6 +46,12 @@ correr API.
 ### 1. Crear una Reserva
 Crea una nueva reserva.
 
+  ```
+    Pending = 1
+    Confirmed = 2
+    Finished = 3
+  ```
+
 - **URL:** `/reservation`
 - **Método:** `POST`
 - **Body (JSON):**
@@ -55,7 +61,7 @@ Crea una nueva reserva.
     "table_id": 2,
     "reservation_date": "2025-01-27T20:00:00",
     "duration_hours": 2,
-    "status": "confirmed" #default: pending
+    "status": 2 #default: pending
   }
   ```
 
@@ -67,7 +73,7 @@ Confirmar reserva
 - **Body (JSON):**
   ```json
   {
-    "status": "confirmed"
+    "status": 2
   }
   ```
 
