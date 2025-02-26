@@ -5,6 +5,7 @@ from flask import request, jsonify
 from . import api
 from datetime import datetime, timedelta
 
+
 @api.route('/reservation', methods=['POST'])
 def make_reservation():
     data = request.get_json()
@@ -90,17 +91,20 @@ def update_reservation(reservation_id):
 
 @api.route('/reservations', methods=['GET'])
 def get_reservations():
+    page = request.args.get('page', 1, type=int)
+    limit = request.args.get('limit',2, type=int)
     try:
         reservations = (
             db.session.query(Reservation)
             .join(Customer, Reservation.customer_id == Customer.id)
             .join(Table, Reservation.table_id == Table.id)
-            .all()
+            .paginate(page=page, per_page=limit)
         )
 
-        result = []
+        data:list = []
         for reservation in reservations:
-            result.append({
+            data.append(
+            {
                 "id": reservation.id,
                 "reservation_date": reservation.reservation_date.isoformat(),
                 "status": ReservationStatus(reservation.status).name.title(),
@@ -114,9 +118,14 @@ def get_reservations():
                     "id": reservation.table.id,
                     "number": reservation.table.number,
                     "seats": reservation.table.seats,
-                },
+                }
             })
 
+        result = {'current_page': reservations.page,
+                    'limit': reservations.per_page,
+                    'pages':reservations.pages,
+                    'total_results': reservations.total,
+                    'data': data}
         return jsonify(result), 200
 
     except Exception as e:
